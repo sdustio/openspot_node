@@ -7,8 +7,8 @@
 #include "rclcpp/rclcpp.hpp"
 #include "openspot/imu.h"
 #include "openspot/leg.h"
-#include "sdquadx/robot.h"
-#include "sdquadx/types.h"
+#include "spotng/robot.h"
+#include "spotng/types.h"
 #include "tf2_ros/transform_broadcaster.h"
 
 namespace openspot {
@@ -37,12 +37,12 @@ class Drive : public rclcpp::Node {
   rclcpp::TimerBase::SharedPtr ctrl_timer_;
   rclcpp::node_interfaces::OnSetParametersCallbackHandle::SharedPtr param_callback_ptr_;
 
-  sdquadx::Options::SharedPtr opts_;
-  sdquadx::RobotCtrl::Ptr robot_;
-  sdquadx::drive::DriveCtrl::SharedPtr drive_ctrl_;
+  spotng::Options::SharedPtr opts_;
+  spotng::RobotCtrl::Ptr robot_;
+  spotng::drive::DriveCtrl::SharedPtr drive_ctrl_;
 
-  sdquadx::drive::Twist drive_twist_;
-  sdquadx::drive::Pose drive_pose_;
+  spotng::drive::Twist drive_twist_;
+  spotng::drive::Pose drive_pose_;
 };
 
 }  // namespace openspot

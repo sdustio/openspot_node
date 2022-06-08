@@ -25,7 +25,7 @@ find_package(nav_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
-find_package(sdquadx REQUIRED)
+find_package(spotng REQUIRED)
 find_package(serial REQUIRED)
 
 add_executable(${PROJECT_NAME})
@@ -44,7 +44,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
   $<INSTALL_INTERFACE:include>
 )
 
-target_link_libraries(${PROJECT_NAME} sdquadx::sdquadx serial::serial)
+target_link_libraries(${PROJECT_NAME} spotng::spotng serial::serial)
 ament_target_dependencies(${PROJECT_NAME}
   rclcpp tf2 tf2_ros nav_msgs sensor_msgs geometry_msgs
 )

@@ -19,22 +19,22 @@ constexpr std::chrono::milliseconds kLegDt(static_cast<int>(1.0 / 0.5));     // 
 }  // namespace drive
 
 namespace log {
-std::unordered_map<std::string, sdquadx::logging::Level> const kLogLevelMap = {
-    {"debug", sdquadx::logging::Level::Debug},
-    {"info", sdquadx::logging::Level::Info},
-    {"warn", sdquadx::logging::Level::Warn},
-    {"err", sdquadx::logging::Level::Err},
-    {"critical", sdquadx::logging::Level::Critical}};
-std::unordered_map<std::string, sdquadx::logging::Target> const kLogTargetMap = {
-    {"console", sdquadx::logging::Target::Console},
-    {"file", sdquadx::logging::Target::File},
-    {"rotate_file", sdquadx::logging::Target::RotateFile}};
+std::unordered_map<std::string, spotng::logging::Level> const kLogLevelMap = {
+    {"debug", spotng::logging::Level::Debug},
+    {"info", spotng::logging::Level::Info},
+    {"warn", spotng::logging::Level::Warn},
+    {"err", spotng::logging::Level::Err},
+    {"critical", spotng::logging::Level::Critical}};
+std::unordered_map<std::string, spotng::logging::Target> const kLogTargetMap = {
+    {"console", spotng::logging::Target::Console},
+    {"file", spotng::logging::Target::File},
+    {"rotate_file", spotng::logging::Target::RotateFile}};
 }  // namespace log
 
 namespace odom {
 constexpr char const kOdometryFrame[] = "odom";
 constexpr char const kRobotBaseFrame[] = "base_footprint";
-constexpr sdquadx::fpt_t const kCovariance[3] = {0.01, 0.01, 0.01};
+constexpr spotng::fpt_t const kCovariance[3] = {0.01, 0.01, 0.01};
 }  // namespace odom
 
 namespace {
@@ -44,7 +44,7 @@ T Square(T a) {
 }
 }  // namespace
 
-Drive::Drive(int argc, char *argv[]) : Node(ros::kNodeName), opts_(std::make_shared<sdquadx::Options>()) {
+Drive::Drive(int argc, char *argv[]) : Node(ros::kNodeName), opts_(std::make_shared<spotng::Options>()) {
   opts_->ctrl_sec = drive::kCtrlDt.count() / 1'000.0;
   // Parse arguments
   for (int i = 1; i < argc; i++) {
@@ -81,7 +81,7 @@ bool Drive::Init() {
       this->create_publisher<sensor_msgs::msg::JointState>("/joint_stats", rclcpp::SensorDataQoS()));
   leg_timer_ = this->create_wall_timer(drive::kLegDt, [this]() { this->leg_itf_->RunOnce(this->now()); });
 
-  sdquadx::RobotCtrl::Build(robot_, opts_, leg_itf_, imu_itf_);
+  spotng::RobotCtrl::Build(robot_, opts_, leg_itf_, imu_itf_);
 
   // sub drive twist and register drive twist handler
   drive_twist_sub_ = this->create_subscription<geometry_msgs::msg::Twist>(
@@ -107,11 +107,11 @@ rcl_interfaces::msg::SetParametersResult Drive::HandleParametersChanged(std::vec
   for (const auto &param : params) {
     auto name = param.get_name();
     if (name == "mode" && param.get_type() == rclcpp::ParameterType::PARAMETER_INTEGER)
-      drive_ctrl_->UpdateMode(static_cast<sdquadx::drive::Mode>(param.as_int()));
+      drive_ctrl_->UpdateMode(static_cast<spotng::drive::Mode>(param.as_int()));
     else if (name == "state" && param.get_type() == rclcpp::ParameterType::PARAMETER_INTEGER)
-      drive_ctrl_->UpdateState(static_cast<sdquadx::drive::State>(param.as_int()));
+      drive_ctrl_->UpdateState(static_cast<spotng::drive::State>(param.as_int()));
     else if (name == "gait" && param.get_type() == rclcpp::ParameterType::PARAMETER_INTEGER)
-      drive_ctrl_->UpdateGait(static_cast<sdquadx::drive::Gait>(param.as_int()));
+      drive_ctrl_->UpdateGait(static_cast<spotng::drive::Gait>(param.as_int()));
     else if (name == "step_height" && param.get_type() == rclcpp::ParameterType::PARAMETER_DOUBLE)
       drive_ctrl_->UpdateStepHeight(param.as_double());
   }
@@ -136,7 +136,7 @@ bool Drive::HandleDrivePose(geometry_msgs::msg::Pose::ConstSharedPtr const &msg)
   drive_pose_.height = msg->position.z;
 
   // q: [w, x, y, z]
-  sdquadx::SdVector4f q = {msg->orientation.w, msg->orientation.x, msg->orientation.y, msg->orientation.z};
+  spotng::SdVector4f q = {msg->orientation.w, msg->orientation.x, msg->orientation.y, msg->orientation.z};
   double as = std::min(-2. * (q[1] * q[3] - q[0] * q[2]), .99999);
 
   drive_pose_.yaw =

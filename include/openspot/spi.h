@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include "sdquadx/interface.h"
+#include "spotng/interface.h"
 
 /*!
  * SPI command message
@@ -45,6 +45,6 @@ bool InitSpi(char const *spi1, char const *spi2);
 
 bool RunSpi();
 
-bool ReadOutTo(sdquadx::sensor::LegDatas &data);
+bool ReadOutTo(spotng::sensor::LegDatas &data);
 
-bool WriteInFrom(sdquadx::interface::LegCmds const &cmds);
+bool WriteInFrom(spotng::interface::LegCmds const &cmds);

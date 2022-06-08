@@ -6,7 +6,7 @@
 
 namespace openspot {
 
-using sdquadx::consts::model::kNumJoint;
+using spotng::consts::model::kNumJoint;
 
 namespace leg {
 constexpr char const kSPId1[] = "/dev/spidev2.0";
@@ -18,13 +18,13 @@ std::array<std::string const, kNumJoint> const kJointNames = {
 
 LegImpl::LegImpl(JointPubPtr pub) : joint_pub_(pub) { InitSpi(leg::kSPId1, leg::kSPId2); }
 
-bool LegImpl::ReadTo(sdquadx::sensor::LegDatas &data) const { return ReadOutTo(data); }
+bool LegImpl::ReadTo(spotng::sensor::LegDatas &data) const { return ReadOutTo(data); }
 
-bool LegImpl::WriteFrom(sdquadx::interface::LegCmds const &cmds) { return WriteInFrom(cmds); }
+bool LegImpl::WriteFrom(spotng::interface::LegCmds const &cmds) { return WriteInFrom(cmds); }
 
 bool LegImpl::RunOnce(rclcpp::Time const &now) {
   RunSpi();
-  sdquadx::sensor::LegDatas jtdata;
+  spotng::sensor::LegDatas jtdata;
   ReadOutTo(jtdata);
 
   sensor_msgs::msg::JointState jtmsg;

@@ -41,7 +41,7 @@ ImuImpl::~ImuImpl() {
   }
 }
 
-bool ImuImpl::ReadTo(sdquadx::sensor::ImuData &data) const {
+bool ImuImpl::ReadTo(spotng::sensor::ImuData &data) const {
   data.quat = {imu_.orientation.w, imu_.orientation.x, imu_.orientation.y, imu_.orientation.z};
   data.gyro = {imu_.angular_velocity.x, imu_.angular_velocity.y, imu_.angular_velocity.z};
   data.acc = {imu_.linear_acceleration.x, imu_.linear_acceleration.y, imu_.linear_acceleration.z};

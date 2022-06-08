@@ -42,8 +42,8 @@ constexpr float const kKneeOffset[4] = {kKneeOffsetPos, -kKneeOffsetPos, kKneeOf
 }  // namespace consts
 
 namespace gd {
-sdquadx::interface::LegCmds leg_cmds = {};
-sdquadx::sensor::LegDatas leg_datas = {};
+spotng::interface::LegCmds leg_cmds = {};
+spotng::sensor::LegDatas leg_datas = {};
 
 SpiCmd spi_cmd;
 SpiData spi_data;
@@ -229,12 +229,12 @@ bool RunSpi() {
   return true;
 }
 
-bool ReadOutTo(sdquadx::sensor::LegDatas &data) {
+bool ReadOutTo(spotng::sensor::LegDatas &data) {
   data = gd::leg_datas;
   return true;
 }
 
-bool WriteInFrom(sdquadx::interface::LegCmds const &cmds) {
+bool WriteInFrom(spotng::interface::LegCmds const &cmds) {
   gd::leg_cmds = cmds;
   return true;
 }

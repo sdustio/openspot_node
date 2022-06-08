@@ -4,7 +4,7 @@
 #include <string>
 
 #include "rclcpp/rclcpp.hpp"
-#include "sdquadx/interface.h"
+#include "spotng/interface.h"
 #include "sensor_msgs/msg/imu.hpp"
 #include "serial/serial.h"
 
@@ -17,11 +17,11 @@ constexpr inline std::size_t const kImuDataBufferSize = 1024;
 
 using ImuPubPtr = rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr;
 
-class ImuImpl : public sdquadx::interface::Imu {
+class ImuImpl : public spotng::interface::Imu {
  public:
   ImuImpl(ImuPubPtr pub);
   ~ImuImpl();
-  bool ReadTo(sdquadx::sensor::ImuData &data) const override;
+  bool ReadTo(spotng::sensor::ImuData &data) const override;
   bool RunOnce(rclcpp::Time const &now);
 
  private:
