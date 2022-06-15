@@ -3,6 +3,14 @@ FROM ghcr.io/sdustio/openspot:base
 ARG GH_REF
 
 RUN set -eux; \
+    apt-get update; \
+	apt-get install -y --no-install-recommends \
+		ca-certificates \
+		curl \
+    ; \
+	rm -rf /var/lib/apt/lists/*;
+
+RUN set -eux; \
     mkdir -p /tmp/serial; \
     curl -LsSf -o serial.tar.gz https://github.com/sdustio/serial/archive/refs/tags/v2.0.0.tar.gz; \
     tar --gzip --extract --directory /tmp/serial --strip-components=1 --file serial.tar.gz; \
