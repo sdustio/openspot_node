@@ -13,19 +13,9 @@ jobs:
       - working-directory: ./dockerfiles
         run: |
           set -e
-
-          # Update this based on your image name and the path of the .devcontainer folder in your repository
           IMAGE_NAME="openspot_node:dev"
           IMAGE_REPOSITORY="$(echo "ghcr.io/${{ github.repository_owner }}/${IMAGE_NAME}" | tr '[:upper:]' '[:lower:]')"
-
-          # [Optional] Enable buildkit, set output to plain text for logging
-          export DOCKER_BUILDKIT=1
-          export BUILDKIT_PROGRESS=plain
-
-          # Do the build - update
-          npm install -g "@vscode/dev-container-cli"
-          devcontainer build --no-cache --image-name "${IMAGE_REPOSITORY}" .
-
+          docker build -t "${IMAGE_REPOSITORY}" -f devel.Dockerfile .
           # Push image to GitHub Container Registry
           echo "${{ github.token }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
           docker push "${IMAGE_REPOSITORY}"

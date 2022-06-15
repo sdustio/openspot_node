@@ -21,15 +21,17 @@ RUN set -eux; \
     cd /; \
     rm -rf /tmp/serial;
 
-COPY spotng.deb /tmp/
-RUN dpkg -i /tmp/spotng.deb
-
 RUN set -eux; \
-    mkdir -p /openspot/src; \
+    curl -LsSf -o spotng.deb https://raw.githubusercontent.com/sdustio/openspot_node/main/dockerfiles/spotng.deb; \
+    dpkg -i spotng.deb; rm spotng.deb
+
+RUN set -ex; \
+    mkdir -p /openspot/src/openspot_node; \
     curl -LsSf -o src.tar.gz https://github.com/sdustio/openspot_node/archive/${GH_REF}.tar.gz; \
     tar --gzip --extract --directory /openspot/src/openspot_node --strip-components=1 --file src.tar.gz; \
     rm src.tar.gz; \
     cd /openspot; \
+    . "/opt/ros/$ROS_DISTRO/setup.sh"; \
     colcon build; \
     rm -rf build src
 

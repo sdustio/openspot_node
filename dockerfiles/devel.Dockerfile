@@ -11,5 +11,6 @@ RUN set -eux; \
     cd /; \
     rm -rf /tmp/serial;
 
-COPY spotng.deb /tmp/
-RUN dpkg -i /tmp/spotng.deb
+RUN set -eux; \
+    curl -LsSf -o spotng.deb https://raw.githubusercontent.com/sdustio/openspot_node/main/dockerfiles/spotng.deb; \
+    dpkg -i spotng.deb; rm spotng.deb
