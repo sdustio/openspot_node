@@ -1,4 +1,4 @@
-FROM ghcr.io/sdustio/openspot:dev
+FROM ghcr.io/sdustio/ros2:dev
 
 RUN set -eux; \
     mkdir -p /tmp/serial; \

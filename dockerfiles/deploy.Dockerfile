@@ -1,4 +1,4 @@
-FROM ghcr.io/sdustio/openspot:base
+FROM ghcr.io/sdustio/ros2:base
 
 ARG GH_REF
 
