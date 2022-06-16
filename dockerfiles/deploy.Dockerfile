@@ -35,6 +35,6 @@ RUN set -ex; \
     colcon build; \
     rm -rf build src
 
-COPY entrypoint.sh /entrypoint.sh
+COPY deploy-entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT [ "/entrypoint.sh" ]
