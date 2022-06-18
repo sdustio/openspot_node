@@ -7,6 +7,17 @@
         "--security-opt",
         "seccomp=unconfined"
     ],
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace/src/${localWorkspaceFolderBasename},type=bind,consistency=cached",
+    "workspaceFolder": "/workspace/src/${localWorkspaceFolderBasename}",
+    "remoteEnv": {
+        "ROS_VERSION":"2",
+        "ROS_PYTHON_VERSION":"3",
+        "AMENT_PREFIX_PATH":"/opt/ros/foxy",
+        "PYTHONPATH":"/opt/ros/foxy/lib/python3.8/site-packages",
+        "LD_LIBRARY_PATH":"/opt/ros/foxy/opt/yaml_cpp_vendor/lib:/opt/ros/foxy/lib/x86_64-linux-gnu:/opt/ros/foxy/lib",
+        "ROS_LOCALHOST_ONLY":"0",
+        "PATH":"/opt/ros/foxy/bin:${containerEnv:PATH}"
+    },
     // Configure tool-specific properties.
     "customizations": {
         // Configure properties specific to VS Code.
@@ -16,10 +27,7 @@
                 "Gruntfuggly.todo-tree",
                 "ms-vscode.cpptools-extension-pack"
             ],
-            "settings": {
-                "cmake.configureOnEdit": false,
-                "cmake.configureOnOpen": false
-            }
+            "settings": {}
         }
     },
     "remoteUser": "vscode"
